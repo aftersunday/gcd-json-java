@@ -1,0 +1,7 @@
+*.p12
+bin/
+.google_apis
+.settings
+.classpath
+.project
+/target/
