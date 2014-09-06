@@ -98,7 +98,7 @@ public class CommitBasicTest {
 	}
 
 	@Test
-	public void testInsertManyEntity() {
+	public void testInsertMany() {
 		Foo f1 = new Foo();
 		f1.setId("this-is-id-01");
 		f1.setName("This is Name 01");
@@ -117,6 +117,31 @@ public class CommitBasicTest {
 
 		lookupFoo = ds.lookup(Foo.class).id(f2.getId()).get();
 		assertEquals(lookupFoo.getId(), f2.getId());
+	}
+
+	@Test
+	public void testUpdateMany() {
+		Foo f = new Foo();
+		f.setId("this-is-id");
+		f.setName("This is Name");
+
+		Foo f1 = new Foo();
+		f1.setId("this-is-id-01");
+		f1.setName("This is Name 01");
+
+		// remove enity if exists
+		ds.commit(Foo.class).entities(f, f1).delete();
+
+		// start insert.
+		ds.commit(Foo.class).entities(f, f1).insert();
+		f.setName("This is Name update !");
+		f1.setName("This is Name update 01 !");
+		ds.commit(Foo.class).entities(f, f1).update();
+
+		Foo lookupFoo = ds.lookup(Foo.class).id(f.getId()).get();
+		assertEquals(lookupFoo.getName(), f.getName());
+		lookupFoo = ds.lookup(Foo.class).id(f1.getId()).get();
+		assertEquals(lookupFoo.getName(), f1.getName());
 	}
 
 	@Test
