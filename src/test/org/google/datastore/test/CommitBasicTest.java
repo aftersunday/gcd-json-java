@@ -16,10 +16,9 @@
 
 package org.google.datastore.test;
 
-import java.util.List;
-
-import org.google.datastore.test.entity.Domain;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import cloud.google.datastore.GCDConfig;
 import cloud.google.datastore.GCDService;
@@ -29,22 +28,28 @@ import cloud.google.datastore.GCDServiceFactory;
  * @author xuanhung2401
  * 
  */
-public class GQLQueryTest {
+@FixMethodOrder(MethodSorters.JVM)
+public class CommitBasicTest {
 
-	String projectName = "s~testblogerapi3";
-	String iss = "303659554328-hrtkn1d961aafp4ehbeckpa0r5rq2vn3@developer.gserviceaccount.com";
-	String keyLocation = "testblogerapi3-ad717b93eb0d.p12";
+	String projectName = "s~source-gcd";
+	String iss = "299520893014-d1kh9putd2n3hbqjsjlsbes1i8spkav5@developer.gserviceaccount.com";
+	String keyLocation = "source-gcd-542f0520e284.p12";
 	GCDConfig config = new GCDConfig(projectName, iss, keyLocation);
 	GCDService ds = GCDServiceFactory.getInstance(config);
 
 	@Test
-	public void testQuery() {
-		List<Domain> list = ds.gqlQuery(Domain.class)
-				.queryString("select * from Domain where name='katana.com'")
-				.list();
-		for (Domain domain : list) {
-			System.out.println(domain.getName());
-		}
+	public void testInsertOne() {
+
+	}
+
+	@Test
+	public void testInsertTwo() {
+
+	}
+
+	@Test
+	public void testInsertList() {
+
 	}
 
 }

@@ -21,31 +21,100 @@ package org.google.datastore.test.entity;
  * 
  */
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import cloud.google.datastore.annotation.Annotation.Entity;
 import cloud.google.datastore.annotation.Annotation.Id;
+import cloud.google.datastore.annotation.Annotation.Index;
 
 @Entity
 public class Foo {
 
 	@Id
-	private String id = "";
+	private String thisKey = "";
 
-	private String title = "";
+	private String bigString = "";
 
-	public String getId() {
-		return id;
+	@Index
+	private String indexString = "";
+
+	@Index
+	private int indexInt = 1;
+
+	@Index
+	private Date doc = Calendar.getInstance().getTime();
+
+	private List<String> listString = new ArrayList<String>();
+
+	private List<Integer> listInt = new ArrayList<Integer>();
+
+	private List<Double> listDouble = new ArrayList<Double>();
+
+	public Date getDoc() {
+		return doc;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setDoc(Date doc) {
+		this.doc = doc;
 	}
 
-	public String getTitle() {
-		return title;
+	public List<String> getListString() {
+		return listString;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setListString(List<String> listString) {
+		this.listString = listString;
+	}
+
+	public List<Integer> getListInt() {
+		return listInt;
+	}
+
+	public void setListInt(List<Integer> listInt) {
+		this.listInt = listInt;
+	}
+
+	public List<Double> getListDouble() {
+		return listDouble;
+	}
+
+	public void setListDouble(List<Double> listDouble) {
+		this.listDouble = listDouble;
+	}
+
+	public String getThisKey() {
+		return thisKey;
+	}
+
+	public void setThisKey(String thisKey) {
+		this.thisKey = thisKey;
+	}
+
+	public String getBigString() {
+		return bigString;
+	}
+
+	public void setBigString(String bigString) {
+		this.bigString = bigString;
+	}
+
+	public String getIndexString() {
+		return indexString;
+	}
+
+	public void setIndexString(String indexString) {
+		this.indexString = indexString;
+	}
+
+	public int getIndexInt() {
+		return indexInt;
+	}
+
+	public void setIndexInt(int indexInt) {
+		this.indexInt = indexInt;
 	}
 
 }
