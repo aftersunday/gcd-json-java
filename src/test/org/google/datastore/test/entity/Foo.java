@@ -34,9 +34,9 @@ import cloud.google.datastore.annotation.Annotation.Index;
 public class Foo {
 
 	@Id
-	private String thisKey = "";
+	private String id = "";
 
-	private String bigString = "";
+	private String name = "";
 
 	@Index
 	private String indexString = "";
@@ -52,6 +52,19 @@ public class Foo {
 	private List<Integer> listInt = new ArrayList<Integer>();
 
 	private List<Double> listDouble = new ArrayList<Double>();
+
+	public Foo() {
+		super();
+		this.listString.add("String 1");
+		this.listString.add("String 2");
+		this.listString.add("String 3");
+		this.listInt.add(1);
+		this.listInt.add(2);
+		this.listInt.add(3);
+		this.listDouble.add(4.0);
+		this.listDouble.add(5.0);
+		this.listDouble.add(6.0);
+	}
 
 	public Date getDoc() {
 		return doc;
@@ -85,20 +98,20 @@ public class Foo {
 		this.listDouble = listDouble;
 	}
 
-	public String getThisKey() {
-		return thisKey;
+	public String getId() {
+		return id;
 	}
 
-	public void setThisKey(String thisKey) {
-		this.thisKey = thisKey;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getBigString() {
-		return bigString;
+	public String getName() {
+		return name;
 	}
 
-	public void setBigString(String bigString) {
-		this.bigString = bigString;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getIndexString() {
