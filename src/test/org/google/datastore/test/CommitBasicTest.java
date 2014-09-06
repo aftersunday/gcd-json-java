@@ -16,12 +16,13 @@
 
 package org.google.datastore.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.google.datastore.test.entity.Foo;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import cloud.google.datastore.GCDConfig;
 import cloud.google.datastore.GCDService;
 import cloud.google.datastore.GCDServiceFactory;
@@ -79,6 +80,24 @@ public class CommitBasicTest {
 	}
 
 	@Test
+	public void testUpdateOne() {
+		Foo f = new Foo();
+		f.setId("this-is-id");
+		f.setName("This is Name");
+
+		// remove enity if exists
+		ds.commit(Foo.class).entities(f).delete();
+
+		// start insert.
+		ds.commit(Foo.class).entities(f).insert();
+		f.setName("This is Name update !");
+		ds.commit(Foo.class).entities(f).update();
+
+		Foo lookupFoo = ds.lookup(Foo.class).id(f.getId()).get();
+		assertEquals(lookupFoo.getName(), f.getName());
+	}
+
+	@Test
 	public void testInsertManyEntity() {
 		Foo f1 = new Foo();
 		f1.setId("this-is-id-01");
@@ -98,5 +117,39 @@ public class CommitBasicTest {
 
 		lookupFoo = ds.lookup(Foo.class).id(f2.getId()).get();
 		assertEquals(lookupFoo.getId(), f2.getId());
+	}
+
+	@Test
+	public void testInsertList() {
+		Foo f1 = new Foo();
+		f1.setId("this-is-id-01");
+		f1.setName("This is Name 01");
+
+		Foo f2 = new Foo();
+		f2.setId("this-is-id-02");
+		f2.setName("This is Name 02");
+
+		Foo f3 = new Foo();
+		f3.setId("this-is-id-03");
+		f3.setName("This is Name 03");
+
+		List<Foo> list = new ArrayList<Foo>();
+		list.add(f1);
+		list.add(f2);
+		list.add(f3);
+
+		ds.commit(Foo.class).entities(list).delete();
+
+		List<Key<Foo>> listKey = ds.commit(Foo.class).entities(list).insert();
+		assertEquals(listKey.size(), 3);
+
+		Foo lookupFoo = ds.lookup(Foo.class).id(f1.getId()).get();
+		assertEquals(lookupFoo.getId(), f1.getId());
+
+		lookupFoo = ds.lookup(Foo.class).id(f2.getId()).get();
+		assertEquals(lookupFoo.getId(), f2.getId());
+
+		lookupFoo = ds.lookup(Foo.class).id(f3.getId()).get();
+		assertEquals(lookupFoo.getId(), f3.getId());
 	}
 }
