@@ -4,7 +4,7 @@
   <artifactId>GoogleCloudDatastoreJsonAPI</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Google Cloud Datastore Json API for Java</name>
-  <description>Google Cloud Datastore Json API for Java by xuanhung2401</description>
+  <description>Google Cloud Datastore Json API for Java by Java Monday</description>
   <build>
     <testSourceDirectory>src/test</testSourceDirectory>
     <plugins>
@@ -32,4 +32,19 @@
   		<version>1.9</version>
   	</dependency>
   </dependencies>
+  <url>https://github.com/aftersunday/gcd-json-java</url>
+  <organization>
+  	<name>Javamonday </name>
+  	<url>http://www.javamonday.com</url>
+  </organization>
+  <scm>
+  	<url>https://github.com/aftersunday/gcd-json-java</url>
+  	<connection>git</connection>
+  	<developerConnection>javamonday</developerConnection>
+  	<tag>java,google cloud,datastore</tag>
+  </scm>
+  <issueManagement>
+  	<system>GitHub</system>
+  	<url>https://github.com/JavaMonday/gcd-json-java/issues</url>
+  </issueManagement>
 </project>
