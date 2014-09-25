@@ -18,9 +18,6 @@ package org.google.datastore.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.google.datastore.test.entity.Foo;
 import org.junit.Test;
 
@@ -32,7 +29,7 @@ import cloud.google.datastore.GCDServiceFactory;
  * @author xuanhung2401
  * 
  */
-public class LookupBasicTest {
+public class QueryBasicTest {
 
 	/**
 	 * Create your project. Visit https://console.developers.google.com > Create
@@ -61,7 +58,7 @@ public class LookupBasicTest {
 	GCDService ds = GCDServiceFactory.getInstance(config);
 
 	@Test
-	public void testLookupByOneStringId() {
+	public void testQuery() {
 		Foo f = new Foo();
 		f.setId("this-is-id");
 		f.setName("This is Name");
@@ -70,70 +67,6 @@ public class LookupBasicTest {
 		Foo lookupFoo = ds.lookup(Foo.class).id(f.getId()).get();
 		assertEquals(lookupFoo.getName(), f.getName());
 		assertEquals(lookupFoo.getId(), f.getId());
-	}
-
-	@Test
-	public void testLookupByTwoStringId() {
-		Foo f = new Foo();
-		f.setId("this-is-id-01");
-		f.setName("This is Name");
-		ds.commit(Foo.class).entities(f).delete();
-		ds.commit(Foo.class).entities(f).insert();
-		Foo f1 = new Foo();
-		f1.setId("this-is-id-02");
-		f1.setName("This is Name");
-		ds.commit(Foo.class).entities(f1).delete();
-		ds.commit(Foo.class).entities(f1).insert();
-		List<Foo> listResult = ds.lookup(Foo.class).ids(f1.getId(), f.getId())
-				.list();
-		assertEquals(listResult.size(), 2);
-		boolean catchF1 = false;
-		boolean catchF2 = false;
-
-		for (Foo foo : listResult) {
-			if (foo.getId().equals(f.getId())) {
-				catchF1 = true;
-			}
-			if (foo.getId().equals(f1.getId())) {
-				catchF2 = true;
-			}
-		}
-		assertEquals(catchF1, true);
-		assertEquals(catchF2, true);
-	}
-
-	@Test
-	public void testLookupByListStringId() {
-		Foo f = new Foo();
-		f.setId("this-is-id-03");
-		f.setName("This is Name");
-		ds.commit(Foo.class).entities(f).delete();
-		ds.commit(Foo.class).entities(f).insert();
-		Foo f1 = new Foo();
-		f1.setId("this-is-id-04");
-		f1.setName("This is Name");
-		ds.commit(Foo.class).entities(f1).delete();
-		ds.commit(Foo.class).entities(f1).insert();
-
-		List<String> listId = new ArrayList<String>();
-		listId.add(f.getId());
-		listId.add(f1.getId());
-
-		List<Foo> listResult = ds.lookup(Foo.class).ids(listId).list();
-		assertEquals(listResult.size(), 2);
-		boolean catchF1 = false;
-		boolean catchF2 = false;
-
-		for (Foo foo : listResult) {
-			if (foo.getId().equals(f.getId())) {
-				catchF1 = true;
-			}
-			if (foo.getId().equals(f1.getId())) {
-				catchF2 = true;
-			}
-		}
-		assertEquals(catchF1, true);
-		assertEquals(catchF2, true);
 	}
 
 }
