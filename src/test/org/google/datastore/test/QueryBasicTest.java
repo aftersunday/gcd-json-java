@@ -18,12 +18,15 @@ package org.google.datastore.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import org.google.datastore.test.entity.Foo;
 import org.junit.Test;
 
 import cloud.google.datastore.GCDConfig;
 import cloud.google.datastore.GCDService;
 import cloud.google.datastore.GCDServiceFactory;
+import cloud.google.datastore.entity.query.OrderDirection;
 
 /**
  * @author xuanhung2401
@@ -57,16 +60,108 @@ public class QueryBasicTest {
 	GCDConfig config = new GCDConfig(projectName, iss, keyLocation);
 	GCDService ds = GCDServiceFactory.getInstance(config);
 
+	// @Test
+	// public void testQueryLimit() {
+	// Foo f = new Foo();
+	// f.setId("this-is-id-01");
+	// f.setName("This is Name 01");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-02");
+	// f.setName("This is Name-02");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-03");
+	// f.setName("This is Name-03");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-04");
+	// f.setName("This is Name-04");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-05");
+	// f.setName("This is Name-05");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-06");
+	// f.setName("This is Name-06");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-07");
+	// f.setName("This is Name-07");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	//
+	// List<Foo> list = ds.query(Foo.class).limit(3).list();
+	// assertEquals(list.size(), 3);
+	// list = ds.query(Foo.class).limit(5).list();
+	// assertEquals(list.size(), 5);
+	// list = ds.query(Foo.class).limit(7).list();
+	// assertEquals(list.size(), 7);
+	// list = ds.query(Foo.class).limit(10).list();
+	// assertEquals(list.size(), 7);
+	// }
+	//
+	// @Test
+	// public void testQueryOffset() {
+	// Foo f = new Foo();
+	// f.setId("this-is-id-01");
+	// f.setName("This is Name 01");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-02");
+	// f.setName("This is Name-02");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-03");
+	// f.setName("This is Name-03");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-04");
+	// f.setName("This is Name-04");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-05");
+	// f.setName("This is Name-05");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-06");
+	// f.setName("This is Name-06");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	// f = new Foo();
+	// f.setId("this-is-id-07");
+	// f.setName("This is Name-07");
+	// ds.commit(Foo.class).entities(f).delete();
+	// ds.commit(Foo.class).entities(f).insert();
+	//
+	// List<Foo> list = ds.query(Foo.class).offset(3).list();
+	// assertEquals(list.size(), 4);
+	// list = ds.query(Foo.class).offset(2).list();
+	// assertEquals(list.size(), 5);
+	// list = ds.query(Foo.class).offset(7).list();
+	// assertEquals(list.size(), 0);
+	// }
+
 	@Test
-	public void testQuery() {
-		Foo f = new Foo();
-		f.setId("this-is-id");
-		f.setName("This is Name");
-		ds.commit(Foo.class).entities(f).delete();
-		ds.commit(Foo.class).entities(f).insert();
-		Foo lookupFoo = ds.lookup(Foo.class).id(f.getId()).get();
-		assertEquals(lookupFoo.getName(), f.getName());
-		assertEquals(lookupFoo.getId(), f.getId());
+	public void testQueryOrder() {
+		List<Foo> list = ds.query(Foo.class)
+				.order("doc", OrderDirection.DESCENDING).list();
+		for (Foo foo : list) {
+			System.out.println(foo.getId());
+			System.out.println(foo.getDoc());
+		}
 	}
 
 }
