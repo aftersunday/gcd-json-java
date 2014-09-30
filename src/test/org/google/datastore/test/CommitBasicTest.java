@@ -17,6 +17,7 @@
 package org.google.datastore.test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.google.datastore.test.entity.Foo;
@@ -63,10 +64,13 @@ public class CommitBasicTest {
 	@Test
 	public void testInsertOne() {
 		Foo f = new Foo();
-		f.setId("this-is-id");
-		f.setName("This is Name");
-
-		// remove enity if exists
+		f.setId("this-is-id-01");
+		f.setName("This is Name 01");
+		f.setIndexString("category-01");
+		f.setIndexInt(1);
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 07, 17);
+		f.setDoc(cal.getTime());
 		ds.commit(Foo.class).entities(f).delete();
 
 		// start insert.
@@ -74,7 +78,6 @@ public class CommitBasicTest {
 
 		assertEquals(listKey.size(), 1);
 		assertEquals(listKey.get(0).getPath().get(0).getName(), f.getId());
-
 		Foo lookupFoo = ds.lookup(Foo.class).id(f.getId()).get();
 		assertEquals(lookupFoo.getId(), f.getId());
 	}
