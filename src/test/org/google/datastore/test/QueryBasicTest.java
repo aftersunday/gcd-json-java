@@ -18,6 +18,7 @@ package org.google.datastore.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.google.datastore.test.entity.Foo;
@@ -26,6 +27,7 @@ import org.junit.Test;
 import cloud.google.datastore.GCDConfig;
 import cloud.google.datastore.GCDService;
 import cloud.google.datastore.GCDServiceFactory;
+import cloud.google.datastore.entity.query.FilterOperator;
 import cloud.google.datastore.entity.query.OrderDirection;
 
 /**
@@ -54,114 +56,228 @@ public class QueryBasicTest {
 	 * key file, click Generate new P12 key, download, keyLocation variable is
 	 * path to your p12 Key file.
 	 * */
-	String projectName = "s~source-gcd";
-	String iss = "299520893014-d1kh9putd2n3hbqjsjlsbes1i8spkav5@developer.gserviceaccount.com";
-	String keyLocation = "source-gcd-542f0520e284.p12";
-	GCDConfig config = new GCDConfig(projectName, iss, keyLocation);
-	GCDService ds = GCDServiceFactory.getInstance(config);
+	static String projectName = "s~source-gcd";
+	static String iss = "299520893014-d1kh9putd2n3hbqjsjlsbes1i8spkav5@developer.gserviceaccount.com";
+	static String keyLocation = "source-gcd-542f0520e284.p12";
+	static GCDConfig config = new GCDConfig(projectName, iss, keyLocation);
+	static GCDService ds = GCDServiceFactory.getInstance(config);
 
-	// @Test
-	// public void testQueryLimit() {
-	// Foo f = new Foo();
-	// f.setId("this-is-id-01");
-	// f.setName("This is Name 01");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-02");
-	// f.setName("This is Name-02");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-03");
-	// f.setName("This is Name-03");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-04");
-	// f.setName("This is Name-04");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-05");
-	// f.setName("This is Name-05");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-06");
-	// f.setName("This is Name-06");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-07");
-	// f.setName("This is Name-07");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	//
-	// List<Foo> list = ds.query(Foo.class).limit(3).list();
-	// assertEquals(list.size(), 3);
-	// list = ds.query(Foo.class).limit(5).list();
-	// assertEquals(list.size(), 5);
-	// list = ds.query(Foo.class).limit(7).list();
-	// assertEquals(list.size(), 7);
-	// list = ds.query(Foo.class).limit(10).list();
-	// assertEquals(list.size(), 7);
-	// }
-	//
-	// @Test
-	// public void testQueryOffset() {
-	// Foo f = new Foo();
-	// f.setId("this-is-id-01");
-	// f.setName("This is Name 01");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-02");
-	// f.setName("This is Name-02");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-03");
-	// f.setName("This is Name-03");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-04");
-	// f.setName("This is Name-04");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-05");
-	// f.setName("This is Name-05");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-06");
-	// f.setName("This is Name-06");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	// f = new Foo();
-	// f.setId("this-is-id-07");
-	// f.setName("This is Name-07");
-	// ds.commit(Foo.class).entities(f).delete();
-	// ds.commit(Foo.class).entities(f).insert();
-	//
-	// List<Foo> list = ds.query(Foo.class).offset(3).list();
-	// assertEquals(list.size(), 4);
-	// list = ds.query(Foo.class).offset(2).list();
-	// assertEquals(list.size(), 5);
-	// list = ds.query(Foo.class).offset(7).list();
-	// assertEquals(list.size(), 0);
-	// }
+	static {
+		System.out.println("Start init data !");
+		long startTime = System.currentTimeMillis();
+		Foo f = new Foo();
+		f.setId("this-is-id-01");
+		f.setName("This is Name 01");
+		f.setIndexString("category-01");
+		f.setIndexInt(1);
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 07, 17);
+		f.setDoc(cal.getTime());
+		ds.commit(Foo.class).entities(f).delete();
+		ds.commit(Foo.class).entities(f).insert();
+		f = new Foo();
+		f.setId("this-is-id-02");
+		f.setName("This is Name-02");
+		f.setIndexString("category-01");
+		f.setIndexInt(1);
+		cal = Calendar.getInstance();
+		cal.set(2012, 07, 17);
+		f.setDoc(cal.getTime());
+		ds.commit(Foo.class).entities(f).delete();
+		ds.commit(Foo.class).entities(f).insert();
+		f = new Foo();
+		f.setId("this-is-id-03");
+		f.setName("This is Name-03");
+		f.setIndexString("category-02");
+		f.setIndexInt(1);
+		cal = Calendar.getInstance();
+		cal.set(2012, 07, 17);
+		f.setDoc(cal.getTime());
+		ds.commit(Foo.class).entities(f).delete();
+		ds.commit(Foo.class).entities(f).insert();
+		f = new Foo();
+		f.setId("this-is-id-04");
+		f.setName("This is Name-04");
+		f.setIndexString("category-02");
+		f.setIndexInt(2);
+		cal = Calendar.getInstance();
+		cal.set(2013, 07, 13);
+		f.setDoc(cal.getTime());
+		ds.commit(Foo.class).entities(f).delete();
+		ds.commit(Foo.class).entities(f).insert();
+		f = new Foo();
+		f.setId("this-is-id-05");
+		f.setName("This is Name-05");
+		f.setIndexString("category-01");
+		f.setIndexInt(2);
+		cal = Calendar.getInstance();
+		cal.set(2013, 07, 13, 0, 0, 0);
+		f.setDoc(cal.getTime());
+		ds.commit(Foo.class).entities(f).delete();
+		ds.commit(Foo.class).entities(f).insert();
+		f = new Foo();
+		f.setId("this-is-id-06");
+		f.setName("This is Name-06");
+		f.setIndexString("category-02");
+		f.setIndexInt(1);
+		cal = Calendar.getInstance();
+		cal.set(2014, 07, 13, 0, 0, 0);
+		f.setDoc(cal.getTime());
+		ds.commit(Foo.class).entities(f).delete();
+		ds.commit(Foo.class).entities(f).insert();
+		f = new Foo();
+		f.setId("this-is-id-07");
+		f.setName("This is Name-07");
+		f.setIndexString("category-02");
+		f.setIndexInt(2);
+		cal = Calendar.getInstance();
+		f.setDoc(cal.getTime());
+		ds.commit(Foo.class).entities(f).delete();
+		ds.commit(Foo.class).entities(f).insert();
+		long endTime = System.currentTimeMillis();
+		System.out.println("End init data !");
+		System.out.println("Lost : " + (endTime - startTime) / 1000
+				+ " second !");
+	}
 
 	@Test
-	public void testQueryOrder() {
+	public void testQueryLimit3() {
+		List<Foo> list = ds.query(Foo.class).limit(3).list();
+		assertEquals(list.size(), 3);
+	}
+
+	@Test
+	public void testQueryLimit5() {
+		List<Foo> list = ds.query(Foo.class).limit(5).list();
+		assertEquals(list.size(), 5);
+	}
+
+	@Test
+	public void testQueryLimit7() {
+		List<Foo> list = ds.query(Foo.class).limit(7).list();
+		assertEquals(list.size(), 7);
+	}
+
+	@Test
+	public void testQueryLimit10() {
+		List<Foo> list = ds.query(Foo.class).limit(10).list();
+		assertEquals(list.size(), 7);
+	}
+
+	@Test
+	public void testQueryOffset3() {
+		List<Foo> list = ds.query(Foo.class).offset(3).list();
+		assertEquals(list.size(), 4);
+	}
+
+	@Test
+	public void testQueryOffset2() {
+		List<Foo> list = ds.query(Foo.class).offset(2).list();
+		assertEquals(list.size(), 5);
+	}
+
+	@Test
+	public void testQueryOffset7() {
+		List<Foo> list = ds.query(Foo.class).offset(7).list();
+		assertEquals(list.size(), 0);
+	}
+
+	@Test
+	public void testQueryOrderASCENDING() {
+		List<Foo> list = ds.query(Foo.class)
+				.order("doc", OrderDirection.ASCENDING).list();
+		assertEquals(list.get(0).getId(), "this-is-id-01");
+	}
+
+	@Test
+	public void testQueryOrderDESCENDING() {
 		List<Foo> list = ds.query(Foo.class)
 				.order("doc", OrderDirection.DESCENDING).list();
+		assertEquals(list.get(0).getId(), "this-is-id-07");
+	}
+
+	@Test
+	public void testQueryFilterString() {
+		List<Foo> list = ds.query(Foo.class)
+				.filter("indexString", "category-01", FilterOperator.EQUAL)
+				.list();
+		assertEquals(list.size(), 3);
+	}
+
+	@Test
+	public void testQueryFilterNumberEqual() {
+		List<Foo> list = ds.query(Foo.class)
+				.filter("indexInt", 1, FilterOperator.EQUAL).list();
+		assertEquals(list.size(), 4);
+	}
+
+	@Test
+	public void testQueryFilterNumberGreateThan() {
+		List<Foo> list = ds.query(Foo.class)
+				.filter("indexInt", 1, FilterOperator.GREATER_THAN).list();
+		assertEquals(list.size(), 3);
+	}
+
+	@Test
+	public void testQueryFilterNumberGreateThanOrEqual() {
+		List<Foo> list = ds.query(Foo.class)
+				.filter("indexInt", 1, FilterOperator.GREATER_THAN_OR_EQUAL)
+				.list();
+		assertEquals(list.size(), 7);
+	}
+
+	@Test
+	public void testQueryFilterNumberLessThan() {
+		List<Foo> list = ds.query(Foo.class)
+				.filter("indexInt", 2, FilterOperator.LESS_THAN).list();
+		assertEquals(list.size(), 4);
+	}
+
+	@Test
+	public void testQueryFilterNumberLessThanOrEqual() {
+		List<Foo> list = ds.query(Foo.class)
+				.filter("indexInt", 2, FilterOperator.LESS_THAN_OR_EQUAL)
+				.list();
+		assertEquals(list.size(), 7);
+	}
+
+	@Test
+	public void testQueryFilterDateRange() {
+		System.out
+				.println("--------------------------2-----------------------");
+		Calendar cal = Calendar.getInstance();
+		cal.set(2013, 07, 12, 23, 59, 59);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(2014, 07, 13, 23, 59, 59);
+		System.out.println(cal.getTime());
+		List<Foo> list = ds.query(Foo.class)
+				.filter("doc", cal.getTime(), FilterOperator.GREATER_THAN)
+				.filter("doc", cal2.getTime(), FilterOperator.LESS_THAN).list();
 		for (Foo foo : list) {
 			System.out.println(foo.getId());
 			System.out.println(foo.getDoc());
 		}
+		assertEquals(list.size(), 3);
 	}
 
+	@Test
+	public void testQueryFilterDate() {
+		System.out.println("--------------------3---------------------");
+		Calendar cal = Calendar.getInstance();
+		cal.set(2013, 07, 12, 23, 59, 59);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(2013, 07, 13, 23, 59, 59);
+		System.out.println(cal.getTime());
+
+		List<Foo> list = ds
+				.query(Foo.class)
+				.filter("doc", cal.getTime(), FilterOperator.GREATER_THAN)
+				.filter("doc", cal2.getTime(),
+						FilterOperator.LESS_THAN_OR_EQUAL).list();
+		for (Foo foo : list) {
+			System.out.println(foo.getId());
+			System.out.println(foo.getDoc());
+		}
+		assertEquals(list.size(), 2);
+	}
 }
