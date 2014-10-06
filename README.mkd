@@ -66,7 +66,7 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	Foo f = new Foo();
 	f.setId("entry-01");
 	f.setName("Entry 01");
-	ds.commit(Foo.class).entities(f).insert();	
+	List<Key<Foo>> listKey = ds.commit(Foo.class).entities(f).insert();	
 ```
 
 ```
@@ -79,7 +79,7 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	f2.setId("entry-02");
 	f2.setName("Entry 02");	
 
-	ds.commit(Foo.class).entities(f1, f2).insert();
+	List<Key<Foo>> listKey = ds.commit(Foo.class).entities(f1, f2).insert();
 ```
 
 
@@ -97,7 +97,7 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	list.add(f1);
 	list.add(f2);
 
-	ds.commit(Foo.class).entities(list).insert();
+	List<Key<Foo>> listKey = ds.commit(Foo.class).entities(list).insert();
 ```
 
 ```	
@@ -105,7 +105,7 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	Foo f = new Foo();
 	f.setId("entry-01");
 	f.setName("Entry 01");
-	ds.commit(Foo.class).entities(f).update();	
+	List<Key<Foo>> listKey = ds.commit(Foo.class).entities(f).update();	
 ```
 
 ```	
@@ -113,8 +113,16 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	Foo f = new Foo();
 	f.setId("entry-01");
 	f.setName("Entry 01");
-	ds.commit(Foo.class).entities(f).delete();	
+	boolean success = ds.commit(Foo.class).entities(f).delete();	
+```
+
+- Lookup	
+
 ```	
+	// Lookup single entry
+	String id = "entry-01";
+	Foo lookupFoo = ds.lookup(Foo.class).id(f.getId()).get();	
+```
 	
 	
 
