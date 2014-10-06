@@ -279,5 +279,6 @@ public class QueryBasicTest {
 			System.out.println(foo.getDoc());
 		}
 		assertEquals(list.size(), 2);
+		// ds.gqlQuery(Foo.class).queryString("SELECT * FROM Foo").list();
 	}
 }
