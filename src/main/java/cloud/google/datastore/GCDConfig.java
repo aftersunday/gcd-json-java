@@ -33,6 +33,7 @@ public class GCDConfig {
 	private String projectName = "";
 	private String iss = "";
 	private String keystoreLoc = "";
+	private String accessToken = "";
 
 	/**
 	 * <p>
@@ -60,6 +61,20 @@ public class GCDConfig {
 		this.projectName = projectName;
 		this.iss = iss;
 		this.keystoreLoc = keystoreLoc;
+	}
+
+	public GCDConfig(String projectName, String accessToken) {
+		super();
+		this.projectName = projectName;
+		this.accessToken = accessToken;
+	}
+
+	public String getAccessToken() {
+		return accessToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 	public String getProjectName() {
