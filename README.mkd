@@ -123,6 +123,13 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	String id = "entry-01";
 	Foo lookupFoo = ds.lookup(Foo.class).id(f.getId()).get();	
 ```
+
+```	
+	// Lookup multi entry
+	String id1 = "entry-01";
+	String id2 = "entry-01";
+	List<Foo> listResult = ds.lookup(Foo.class).ids(id1, id2).list();	
+```
 	
 	
 
