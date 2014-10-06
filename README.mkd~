@@ -23,6 +23,6 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	GCDService ds = GCDServiceFactory.getInstance(config);
 ```
 
-2. Commit
+1. Commit
 	
 
