@@ -16,9 +16,9 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 
 1. Config
 ```
-	String projectName = "s~source-gcd";
-	String iss = "299520893014-d1kh9putd2n3hbqjsjlsbes1i8spkav5@developer.gserviceaccount.com";
-	String keyLocation = "source-gcd-542f0520e284.p12";
+	String projectName = "s~your-project-id";
+	String iss = "xxxx20893014-d1kh9putd2n3hbqjsjlsbes1i8spxxx@developer.gserviceaccount.com";
+	String keyLocation = "your-project-id-xxxxx.p12";
 	GCDConfig config = new GCDConfig(projectName, iss, keyLocation);
 	GCDService ds = GCDServiceFactory.getInstance(config);
 ```
