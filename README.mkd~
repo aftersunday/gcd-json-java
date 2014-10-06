@@ -24,6 +24,10 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 ```
 
 - Registry your entry 
+	- Mark annotation @Entity for your entry.
+	- Mark annotation @Id for entry key.
+	- Mark annotation @Index for index field.
+
 ```
 	import cloud.google.datastore.annotation.Annotation.Entity;
 	import cloud.google.datastore.annotation.Annotation.Id;
@@ -48,8 +52,7 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 
 	}
 ```
-	- Mark annotation @Entity for your entry
-	- Mark annotation
+	
 	
 	
 
