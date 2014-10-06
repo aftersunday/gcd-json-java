@@ -4,17 +4,17 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 
 ## To use library : 
 
-1. You need an appengine application (https://console.developers.google.com/project) with Google Cloud Datastore API status is On. 
+- You need an appengine application (https://console.developers.google.com/project) with Google Cloud Datastore API status is On. 
 	- Create your own project. Visit https://console.developers.google.com > Create Project, enter project name and project id. 
 	- Important : Enable Google Cloud Datastore API. Visit https://console.developers.google.com. Choose your created project > APIs & auth (left menu) > APIs > Google Cloud Datastore API > On.
-2. Some information to config. Choose your created project > APIs & auth (left menu) > Credentials > Create New Client ID > Chooose Service account > Create Client ID. 
+- Some information to config. Choose your created project > APIs & auth (left menu) > Credentials > Create New Client ID > Chooose Service account > Create Client ID. 
 	- projectName : is your project id with "s~" before, example your project id : "your-project-id" -> projectName = "s~your-project-id". 
 	- iss : is Email address. 
 	- p12 key file : click Generate new P12 key, download, keyLocation variable is path to your p12 Key file.
 
 ## Sample code : 
 
-1. Config
+- Config
 ```
 	String projectName = "s~your-project-id";
 	String iss = "xxxx20893014-d1kh9putd2n3hbqjsjlsbes1i8spxxx@developer.gserviceaccount.com";
@@ -23,6 +23,34 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	GCDService ds = GCDServiceFactory.getInstance(config);
 ```
 
-2. Commit
+- Registry your entry 
+```
+	import cloud.google.datastore.annotation.Annotation.Entity;
+	import cloud.google.datastore.annotation.Annotation.Id;
+	import cloud.google.datastore.annotation.Annotation.Index;
+
+	@Entity
+	public class Foo {
+
+		@Id
+		private String id = "";
+
+		private String name = "";
+
+		@Index
+		private String category = "";
+
+		@Index
+		private Date doc = Calendar.getInstance().getTime();
+
+		@Index
+		private int status = 1;
+
+	}
+```
+	- Mark annotation @Entity for your entry.
+	- Mark annotation @Id for entry key.
+	- Mark annotation @Index for index field.
+	
 	
 
