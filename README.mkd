@@ -130,6 +130,52 @@ GCD Json Java is a Java data access API designed for the Google App Engine datas
 	String id2 = "entry-01";
 	List<Foo> listResult = ds.lookup(Foo.class).ids(id1, id2).list();	
 ```
+
+```	
+	// Lookup list entry
+	String id1 = "entry-01";
+	String id2 = "entry-01";
+	List<String> listId = new ArrayList<String>();
+	listId.add(id1);
+	listId.add(id2);
+	List<Foo> listResult = ds.lookup(Foo.class).ids(listId).list();
+```
+
+- Query
+
+```
+	// Query with limit
+	List<Foo> list = ds.query(Foo.class).limit(10).list();	
+```
 	
+```
+	// Query with offset
+	List<Foo> list = ds.query(Foo.class).offset(10).list();	
+```
+
+```
+	// Query with order : ASCENDING, DESCENDING
+	List<Foo> listOrderByDocASC = ds.query(Foo.class).order("doc", OrderDirection.ASCENDING).list();
+	List<Foo> listOrderByDocDESC = ds.query(Foo.class).order("doc", OrderDirection.DESCENDING).list();
+```
+
+```
+	// Query with filter : EQUAL, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL
+	List<Foo> listFilterByStatus = ds.query(Foo.class).filter("status", 1, FilterOperator.EQUAL).list();
+	List<Foo> list = ds.query(Foo.class).filter("status", 1, FilterOperator.GREATER_THAN_OR_EQUAL).filter("status", 10, FilterOperator.LESS_THAN_OR_EQUAL).list();
+```
+
+```
+	// Composite query
+	List<Foo> list = ds.query(Foo.class).filter("status", 1, FilterOperator.GREATER_THAN_OR_EQUAL).limit(10).offset(10).order("doc", OrderDirection.ASCENDING).list();
+```
+
+- GQL Query : query with your query string (GQL Syntax : https://cloud.google.com/appengine/docs/python/datastore/gqlreference)
+
+```
+	List<Foo> list = ds.gqlQuery(Foo.class).queryString("SELECT * FROM Foo").list();
+```
+
+
 	
 
