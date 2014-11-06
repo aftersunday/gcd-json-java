@@ -200,7 +200,7 @@ public class QueryBasicTest {
 	public void testQueryFilterString() {
 		List<Foo> list = ds.query(Foo.class)
 				.filter("indexString", "category-01", FilterOperator.EQUAL)
-				.list();
+				.list();		
 		assertEquals(list.size(), 3);
 	}
 
